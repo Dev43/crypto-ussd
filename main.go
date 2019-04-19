@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/go-chi/chi"
@@ -32,7 +33,10 @@ func main() {
 		fmt.Println(sessionId, phoneNumber, networkCode, text)
 	})
 
-	port := ":3000"
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = ":3000"
+	}
 	fmt.Println("Listnening on port", port)
 	http.ListenAndServe(":3000", r)
 }
