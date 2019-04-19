@@ -24,19 +24,22 @@ func main() {
 	// processing should be stopped.
 	r.Use(middleware.Timeout(60 * time.Second))
 
-	r.Post("/ussd", func(w http.ResponseWriter, r *http.Request) {
+	r.Post("/", func(w http.ResponseWriter, r *http.Request) {
 		sessionId := r.FormValue("sessionId")
 		phoneNumber := r.FormValue("phoneNumber")
 		networkCode := r.FormValue("networkCode")
 		text := r.FormValue("text")
 
 		fmt.Println(sessionId, phoneNumber, networkCode, text)
+		w.Write([]byte(`CON What would you want to check
+		1. My Account
+		2. My phone number`))
 	})
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = ":3000"
+		port = "3000"
 	}
 	fmt.Println("Listnening on port", port)
-	http.ListenAndServe(":3000", r)
+	http.ListenAndServe(":"+port, r)
 }

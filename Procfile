@@ -1,1 +1,1 @@
-web: crypto-ussd
+web: bin/crypto-ussd
