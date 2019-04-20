@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/ecdsa"
+	"fmt"
 	"io/ioutil"
 
 	"github.com/Dev43/crypto-ussd/memory"
@@ -49,28 +50,54 @@ func getKey() (*ecdsa.PrivateKey, error) {
 	return (privateKey), nil
 }
 
+var choices = []string{"", "DAI", "ECT", "ETH"}
+
 func (conn *connection) SendMoney(textArray []string, sessionID, phoneNumber, networkCode, text string) (string, error) {
 	var msg string
 	var err error
+	// comes here when 1
 	if len(textArray) == 1 {
 		msg = `CON Please send the total amount to send`
 		return msg, nil
 	}
-
+	// comes here when 1*{amount}*{phone}*{Coinchoice#}*{token symbol #}*{confirm = 0 && 1}
 	switch len(textArray) {
-	case 1:
-		msg = `CON Please write their phone number`
 	case 2:
+		// we have an amount
+		amount := textArray[1]
+		fmt.Println(amount)
+		msg = `CON Please write their phone number`
+	case 3:
+		// we have the phone number here
+		number := textArray[2]
+		fmt.Println(number)
+
 		msg = `CON Please choose what token to send
 		1. DAI
 		2. ECT
 		3. ETH
 		`
-
-	case 3:
-		msg = `CON Please send the total amount to send`
 	case 4:
+		// we get their choice
+		index := textArray[3]
+		fmt.Println(index)
+
+		// make sure it's within the bounds
+
+		msg = `CON Please send a password` // can add (you have x left)
+	case 5:
+		// we get the password
+		password := textArray[4]
+		fmt.Println(password)
+
 		msg = `CON Please confirm what you are sending:`
+	case 6:
+		// we get the confirmation
+		conf := textArray[5]
+		fmt.Println(conf)
+
+		// check it's ok
+		msg = `END Sent!`
 	}
 	return msg, err
 	// // to send money

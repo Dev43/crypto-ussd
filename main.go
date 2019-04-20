@@ -30,10 +30,10 @@ func main() {
 
 	// create new connection
 
-	// conn, err := NewConnection()
-	// if err != nil {
-	// 	panic(err)
-	// }
+	conn, err := NewConnection()
+	if err != nil {
+		panic(err)
+	}
 
 	r.Post("/", func(w http.ResponseWriter, r *http.Request) {
 		sessionId := r.FormValue("sessionId")
@@ -53,19 +53,17 @@ func main() {
 			`))
 			return
 		}
-		fmt.Println(r.RequestURI)
-		fmt.Println(sessionId, phoneNumber, networkCode, text)
 		textArray := strings.Split(text, "*")
 		switch textArray[0] {
 		case "1":
 			// Send Money
-			// resp, err := conn.SendMoney(textArray, sessionId, phoneNumber, networkCode, text)
-			// if err != nil {
-			// 	// handle it
-			// 	w.Write([]byte(err.Error()))
+			resp, err := conn.SendMoney(textArray, sessionId, phoneNumber, networkCode, text)
+			if err != nil {
+				// handle it
+				w.Write([]byte(err.Error()))
 
-			// }
-			// w.Write([]byte(resp))
+			}
+			w.Write([]byte(resp))
 		case "2":
 			// Withdraw Cash
 			// resp, err := SendMoney(sessionId, phoneNumber, networkCode, text)
