@@ -5,8 +5,8 @@ pragma solidity ^0.5.2;
 // need ERC721 interactor
 // maybe MakerDao too
 
-import 'openzeppelin-solidity/contracts/token/ERC20/IERC20.sol';
-import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
+import './IERC20.sol';
+import './Ownable.sol';
 
 contract User is Ownable {
 

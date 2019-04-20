@@ -1,13 +1,10 @@
 pragma solidity ^0.5.2;
 
+// THIS IS A HACKATHON CONTRACT >> CARE WAS NOT TAKEN INTO SECURITY CONSIDERATIONS
 
-// need ERC20 interactor
-// need ERC721 interactor
-// maybe MakerDao too
-
-import 'openzeppelin-solidity/contracts/token/ERC20/IERC20.sol';
+import './IERC20.sol';
 import "./User.sol";
-import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
+import './Ownable.sol';
 
 contract Telco is Ownable {
 
@@ -52,8 +49,6 @@ contract Telco is Ownable {
     userContract.trustedEntityTransferERC20(address(this), _tokenAddress, _amount, _password);
     user.balances[_tokenAddress] += _amount;
   }
-  // maybe a counter for locked balances in channels + all channels that belong to the user
-
 
   function userDirectWithdraw(address _tokenAddress, uint256 _amount) external {
     OurUser storage user = users[msg.sender];
@@ -69,4 +64,38 @@ contract Telco is Ownable {
     erc20.transfer(userAddress, _amount);
     // TODO need to remove the password here!
   }
+
+  // add an authenticated transfer  (all it does is transfer tokens internally)
+  function authTransfer(address _tokenAddress, string calldata _toPhoneNumber, uint256 _amount, string calldata _phoneNumber, bytes calldata _password) external {
+    require(checkPasswordValid(_phoneNumber, _password), "password not valid");
+    address userAddress = fromPhoneNumberToAddress[_phoneNumber];
+    OurUser storage user = users[userAddress];
+    require(user.balances[_tokenAddress] >= _amount);
+    // remove from us
+    user.balances[_tokenAddress] -= _amount;
+    // add to other user
+    address toAddress = fromPhoneNumberToAddress[_toPhoneNumber];
+    users[toAddress].balances[_tokenAddress] += _amount;
+  }
+
 }
+
+// Phase 1
+// user creates a smart contract w/ deposit, withdraw, register and passwords
+// user registers with the telco
+// telco takes coins from the user (adds it to their "balance" mapping) 
+// any transfer from the telco in the contract needs the blessing of the user (the password)
+
+// Need to deploy a User contract, get its address
+  //  Add in all password -- create script to create 20 passwords hashed
+// Deploy a Telco contract, get its address
+// ABIGEN the contract (to interact with)
+// Create logic in the USSD app for transfers etc
+
+
+
+
+
+// user requests telco to create a channel with another phone number
+  // maybe a counter for locked balances in channels + all channels that belong to the user
+// telco creates the channel with himsel

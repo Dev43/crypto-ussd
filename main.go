@@ -112,7 +112,7 @@ func main() {
 	// NOW TOP UP THE CHANNEL
 	// topUpChannel("0x0bae0289AAA26845224F528F9B9DefE69e01606E", "0x396764f15ed1467883A9a5B7D42AcFb788CD1826", 15000000)
 	// now make a payment
-	makePayment("0x0bae0289AAA26845224F528F9B9DefE69e01606E", "0x396764f15ed1467883A9a5B7D42AcFb788CD1826", 100, 3)
+	// makePayment("0x0bae0289AAA26845224F528F9B9DefE69e01606E", "0x396764f15ed1467883A9a5B7D42AcFb788CD1826", 100, 3)
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "3000"
@@ -140,7 +140,7 @@ func main() {
 2019-04-19T21:40:28.904832+00:00 app[web.1]: ATUid_d74e8947568bba6721afbb8b51205b9c +27777777777 99999 1*2*3*4*5*6
 2019-04-19T21:40:28.905166+00:00 app[web.1]: 2019/04/19 21:40:28 [e4eee290-4802-48cd-b183-4549532d6c52] "POST http://ancient-ravine-46133.herokuapp.com/ HTTP/1.1" from 134.213.151.223 - 200 69B in 470.674µs */
 
-// user goes and needds a private key
+// user goes and needs a private key
 // user opens account, adds in all of their one time passwords in it
 // from there they are in the smart contract -- as their phone number
 // they need to use their one time passwords for the service provider to actually be able to interact with the system
