@@ -48,7 +48,7 @@ func NewConnection() (*connection, error) {
 	auth.GasPrice = gp
 	url := os.Getenv("BLOCKCHAIN_URL")
 	if url == "" {
-		url = "http://localhost:8545"
+		panic("URL MISSING")
 	}
 	client, err := ethclient.Dial(url)
 	if err != nil {
