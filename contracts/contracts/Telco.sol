@@ -9,9 +9,9 @@ import './Ownable.sol';
 contract Telco is Ownable {
 
   // mapping from User contract address to user
-  mapping(address => OurUser) users;
+  mapping(address => OurUser) public users;
   // mapping from phone number to user address
-  mapping(string => address) fromPhoneNumberToAddress;
+  mapping(string => address)  fromPhoneNumberToAddress;
 
   struct OurUser {
     string phoneNumber;
@@ -23,13 +23,16 @@ contract Telco is Ownable {
   }
 
   // Register is how the users register from their smart contract
-  function register(string calldata _phoneNumber) external returns(bool) {
-    // msg.sender is the user's contract here
-    users[msg.sender] = OurUser({
+  function registerNewUser(string calldata _phoneNumber, address userAddress) external returns(bool) {
+    users[userAddress] = OurUser({
       phoneNumber: _phoneNumber
     });
-    fromPhoneNumberToAddress[_phoneNumber] = msg.sender;
+    fromPhoneNumberToAddress[_phoneNumber] = userAddress;
     return true;
+  }
+
+  function getUserPhoneNumber(address _addr) view public returns(string memory) {
+    return users[_addr].phoneNumber;
   }
 
   function checkPasswordValid(string memory _phoneNumber, bytes memory _password) public view returns(bool) {
@@ -65,12 +68,18 @@ contract Telco is Ownable {
     // TODO need to remove the password here!
   }
 
+  function getUserBalance(address _addr, address _tokenAddress) public view returns(uint256) {
+    return users[_addr].balances[_tokenAddress];
+  }
+
   // add an authenticated transfer  (all it does is transfer tokens internally)
   function authTransfer(address _tokenAddress, string calldata _toPhoneNumber, uint256 _amount, string calldata _phoneNumber, bytes calldata _password) external {
     require(checkPasswordValid(_phoneNumber, _password), "password not valid");
     address userAddress = fromPhoneNumberToAddress[_phoneNumber];
     OurUser storage user = users[userAddress];
-    require(user.balances[_tokenAddress] >= _amount);
+    User userContract = User(userAddress);
+    userContract.retirePassword(_password);
+    require(user.balances[_tokenAddress] >= _amount, "not enough balanace");
     // remove from us
     user.balances[_tokenAddress] -= _amount;
     // add to other user
@@ -86,9 +95,9 @@ contract Telco is Ownable {
 // telco takes coins from the user (adds it to their "balance" mapping) 
 // any transfer from the telco in the contract needs the blessing of the user (the password)
 
-// Need to deploy a User contract, get its address
+// Need to deploy a User contract, get its address 0x4A31ECe693fB614935eFB337034F9C79efEC03B5
   //  Add in all password -- create script to create 20 passwords hashed
-// Deploy a Telco contract, get its address
+// Deploy a Telco contract, get its address 0xC28614fEcD3109EFf192DD3cABc7ac9b82C7eD11
 // ABIGEN the contract (to interact with)
 // Create logic in the USSD app for transfers etc
 

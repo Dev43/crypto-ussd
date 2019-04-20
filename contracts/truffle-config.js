@@ -70,7 +70,7 @@ module.exports = {
     },
 
     // Useful for private networks
-    // private: {
+    // private: {HDWalletProvider
       // provider: () => new HDWalletProvider(mnemonic, `https://network.io`),
       // network_id: 2111,   // This network is yours, in the cloud.
       // production: true    // Treats this network as if it was a public net. (default: false)

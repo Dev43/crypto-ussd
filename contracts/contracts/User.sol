@@ -10,25 +10,27 @@ import './Ownable.sol';
 
 contract User is Ownable {
 
-    string phoneNumber;
-    string name;
+    string public phoneNumber;
+    string public name;
+    uint256 public totalPasswordsLeft;
 
     // keeps one time passwords
-    mapping(bytes32 => bool) passwords;
-    // keeps token balances
-    mapping(bytes32 => uint256) balances;
+    mapping(bytes32 => bool) public passwords;
 
-    mapping(address => bool) trustedEntities;
+    mapping(address => bool) public trustedEntities;
 
-  constructor(string memory _phoneNumber, string memory _name) public {
+  constructor(string memory _phoneNumber, string memory _name, address _trustedEntity, bytes32[] memory _hashedPasswords) public {
       phoneNumber = _phoneNumber;
       name = _name;
+      addPasswords(_hashedPasswords);
+      addTrustedEntity(_trustedEntity);
   }
 
-  function addPasswords(bytes32[] calldata _hashedPasswords) external onlyOwner {
+  function addPasswords(bytes32[] memory _hashedPasswords) public onlyOwner {
     for(uint256 i = 0; i < _hashedPasswords.length; i++) {
       passwords[_hashedPasswords[i]] = true;
     }
+    totalPasswordsLeft += _hashedPasswords.length;
   }
 
   function isPasswordValid( bytes memory _password) public view returns(bool) {
@@ -48,6 +50,7 @@ contract User is Ownable {
       trustedEntities[_trustedEntity] = true;
   }
 
+
   function removeTrustedEntity(address _trustedEntity) public onlyOwner {
       trustedEntities[_trustedEntity] = false;
   }
@@ -57,7 +60,13 @@ contract User is Ownable {
       require(passwords[keccak256(_password)], "password is not valid");
       // delete the password
       delete passwords[keccak256(_password)];
+      totalPasswordsLeft -= 1;
       address(uint160(_to)).transfer(_amount);
+  }
+
+  function retirePassword(bytes memory _password) public {
+    delete passwords[keccak256(_password)];
+    totalPasswordsLeft -= 1;
   }
 
   function trustedEntityTransferERC20(address _to, address _erc20Address, uint256 _amount, bytes memory _password) public  {
@@ -65,17 +74,10 @@ contract User is Ownable {
       require(passwords[keccak256(_password)], "password is not valid");
       // delete the password
       delete passwords[keccak256(_password)];
+      totalPasswordsLeft -= 1;
 
       IERC20 erc20 = IERC20(_erc20Address);
       require(erc20.transfer(_to, _amount), "problem sending ERC20");
   }
 
 }
-
-// A user needs the ability to:
-// Add passwords
-// Change Ownership
-// Approve a telco?
-// Withdraw funds from our telco
-// Receive tokens and move them
-// Allow a trusted telco to transfer tokens (erc20 or other) with a password
