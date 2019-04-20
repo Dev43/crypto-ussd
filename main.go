@@ -4,15 +4,12 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 )
-
-func SendMoney(sessionID, phoneNumber, networkCode, text string) (string, error) {
-	return "", nil
-}
 
 func main() {
 	r := chi.NewRouter()
@@ -31,15 +28,19 @@ func main() {
 	// no push notifications! that means that we need to either send sms or something of the sort to the user dabout the state of
 	// his request
 
+	// create new connection
+
+	// conn, err := NewConnection()
+	// if err != nil {
+	// 	panic(err)
+	// }
+
 	r.Post("/", func(w http.ResponseWriter, r *http.Request) {
 		sessionId := r.FormValue("sessionId")
 		phoneNumber := r.FormValue("phoneNumber")
 		networkCode := r.FormValue("networkCode")
 		text := r.FormValue("text")
-
-		// Home screen
-		switch text {
-		case "":
+		if text == "" {
 			w.Write([]byte(`CON 
 			Welcome to crypto USSD Portal, what would you like to do?
 			1. Send Money
@@ -50,15 +51,21 @@ func main() {
 			6. ATM Withdrawal
 			7. My Account
 			`))
-
 			return
+		}
+		fmt.Println(r.RequestURI)
+		fmt.Println(sessionId, phoneNumber, networkCode, text)
+		textArray := strings.Split(text, "*")
+		switch textArray[0] {
 		case "1":
 			// Send Money
-			resp, err := SendMoney(sessionId, phoneNumber, networkCode, text)
-			if err != nil {
-				// handle it
-			}
-			w.Write([]byte(resp))
+			// resp, err := conn.SendMoney(textArray, sessionId, phoneNumber, networkCode, text)
+			// if err != nil {
+			// 	// handle it
+			// 	w.Write([]byte(err.Error()))
+
+			// }
+			// w.Write([]byte(resp))
 		case "2":
 			// Withdraw Cash
 			// resp, err := SendMoney(sessionId, phoneNumber, networkCode, text)
@@ -117,6 +124,7 @@ func main() {
 	if port == "" {
 		port = "3000"
 	}
+
 	fmt.Println("Listening on port", port)
 	http.ListenAndServe(":"+port, r)
 }

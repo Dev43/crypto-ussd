@@ -79,7 +79,7 @@ contract Telco is Ownable {
     OurUser storage user = users[userAddress];
     User userContract = User(userAddress);
     userContract.retirePassword(_password);
-    require(user.balances[_tokenAddress] >= _amount, "not enough balanace");
+    require(user.balances[_tokenAddress] >= _amount, "not enough balance");
     // remove from us
     user.balances[_tokenAddress] -= _amount;
     // add to other user

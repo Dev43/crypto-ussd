@@ -102,7 +102,7 @@ contract("User", function (accounts) {
         }
         let balanceAfter = (await telcoContract.getUserBalance(userContract.address, erc20Contract.address))
         
-        // assert the user has 100 tokens
+        // assert the user has 50 tokens
         assert.equal((await telcoContract.getUserBalance(userContract.address, erc20Contract.address)).toString(), "50")
         assert.equal((await userContract.totalPasswordsLeft()).toString(), "1")
         
