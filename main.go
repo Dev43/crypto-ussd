@@ -37,10 +37,9 @@ func main() {
 
 	r.Post("/", func(w http.ResponseWriter, r *http.Request) {
 		sessionId := r.FormValue("sessionId")
-		phoneNumber := r.FormValue("phoneNumber")
+		phoneNumber := r.FormValue("phoneNumber")[1:]
 		networkCode := r.FormValue("networkCode")
 		text := r.FormValue("text")
-
 		// check if the user has a history, if not create one
 		_, err := conn.memory.Get(phoneNumber)
 		if err != nil {
@@ -67,7 +66,7 @@ func main() {
 		switch textArray[0] {
 		case "1":
 			// Send Money
-			resp, err := conn.SendMoney(textArray, sessionId, phoneNumber[1:], networkCode, text)
+			resp, err := conn.SendMoney(textArray, sessionId, phoneNumber, networkCode, text)
 			if err != nil {
 				// handle it
 				w.Write([]byte(err.Error()))
