@@ -350,7 +350,7 @@ func (conn *connection) Withdraw(textArray []string, sessionID, phoneNumber, net
 		conn.memory.Write(withdrawKey, w)
 
 		// check it's ok
-		msg = `END Withdral Sent!`
+		msg = `END Withdrawal Sent!`
 	}
 	return msg, err
 }
