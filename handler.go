@@ -46,7 +46,6 @@ func NewConnection() (*connection, error) {
 	auth.GasLimit = 6000000
 	gp, _ := new(big.Int).SetString("10000000000", 10)
 	auth.GasPrice = gp
-	// client, err := ethclient.Dial("https://goerli.infura.io/v3/1eecb15771324b71961a05dc3398ebd4")
 	url := os.Getenv("BLOCKCHAIN_URL")
 	if url == "" {
 		url = "http://localhost:8545"
@@ -378,6 +377,7 @@ func (conn *connection) MyAccount(textArray []string, sessionID, phoneNumber, ne
 			/// account balance
 			addr, err := conn.telcoInteractor.TelcoCaller.GetFromPhoneNumberToAddress(&bind.CallOpts{}, phoneNumber)
 			if err != nil {
+				fmt.Println(err)
 				msg = "error getting phone number to address"
 				break
 			}

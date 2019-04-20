@@ -63,10 +63,11 @@ func main() {
 			return
 		}
 		textArray := strings.Split(text, "*")
+
 		switch textArray[0] {
 		case "1":
 			// Send Money
-			resp, err := conn.SendMoney(textArray, sessionId, phoneNumber, networkCode, text)
+			resp, err := conn.SendMoney(textArray, sessionId, phoneNumber[1:], networkCode, text)
 			if err != nil {
 				// handle it
 				w.Write([]byte(err.Error()))
