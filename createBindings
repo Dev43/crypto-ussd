@@ -1,0 +1,1 @@
+(abigen --sol contracts/contracts/Telco.sol  --pkg telco > telco/telco.go) && (abigen --sol contracts/contracts/User.sol  --pkg user > user/user.go) && (abigen --sol contracts/contracts/ERC20.sol  --pkg erc20 > erc20/erc20.go)

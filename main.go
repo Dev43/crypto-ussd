@@ -40,6 +40,7 @@ func main() {
 		phoneNumber := r.FormValue("phoneNumber")
 		networkCode := r.FormValue("networkCode")
 		text := r.FormValue("text")
+		fmt.Println(sessionId, phoneNumber, networkCode, text)
 		if text == "" {
 			w.Write([]byte(`CON 
 			Welcome to crypto USSD Portal, what would you like to do?
@@ -101,12 +102,15 @@ func main() {
 			// w.Write([]byte(resp))
 		case "7":
 			// My Account
-			// resp, err := SendMoney(sessionId, phoneNumber, networkCode, text)
-			// if err != nil {
-			// 	// handle it
-			// }
-			// w.Write([]byte(resp))
+			resp, err := conn.MyAccount(textArray, sessionId, phoneNumber, networkCode, text)
+			if err != nil {
+				// handle it
+				w.Write([]byte(err.Error()))
+
+			}
+			w.Write([]byte(resp))
 		case "8":
+			// Create a loan!
 		}
 
 	})

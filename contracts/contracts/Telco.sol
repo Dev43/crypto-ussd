@@ -35,6 +35,10 @@ contract Telco is Ownable {
     return users[_addr].phoneNumber;
   }
 
+  function getFromPhoneNumberToAddress(string calldata _phoneNumber) external view returns(address) {
+    return fromPhoneNumberToAddress[_phoneNumber];
+  }
+  
   function checkPasswordValid(string memory _phoneNumber, bytes memory _password) public view returns(bool) {
     address userAddress = fromPhoneNumberToAddress[_phoneNumber];
     require(userAddress != address(0), "user does not exist");

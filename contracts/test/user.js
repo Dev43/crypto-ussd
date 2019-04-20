@@ -9,7 +9,7 @@ contract("User", function (accounts) {
     let userContract
     let telcoContract
     let erc20Contract
-
+    console.log(UserContract.address)
     it("should assert true", async () => {
         userContract = await UserContract.deployed();
         assert(userContract.address, "address not defined");
@@ -52,7 +52,7 @@ contract("User", function (accounts) {
     it("should register the user in the telco", async () => {
 
         // now the telco should register the phoneNumber of the user
-        try {
+    try {
             await telcoContract.registerNewUser("254777777777", userContract.address)
         } catch (e) {
             console.log(e)
