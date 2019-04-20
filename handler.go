@@ -4,6 +4,7 @@ import (
 	"crypto/ecdsa"
 	"fmt"
 	"io/ioutil"
+	"os"
 
 	"github.com/Dev43/crypto-ussd/telco"
 
@@ -37,7 +38,11 @@ func NewConnection() (*connection, error) {
 	}
 	auth := bind.NewKeyedTransactor(key)
 	// client, err := ethclient.Dial("https://goerli.infura.io/v3/1eecb15771324b71961a05dc3398ebd4")
-	client, err := ethclient.Dial("http://localhost:8545")
+	url := os.Getenv("BLOCKCHAIN_URL")
+	if url == "" {
+		url = "http://localhost:8545"
+	}
+	client, err := ethclient.Dial(url)
 	if err != nil {
 		return nil, err
 	}
@@ -167,13 +172,13 @@ func (conn *connection) MyAccount(textArray []string, sessionID, phoneNumber, ne
 			}
 
 		case "2":
-		// address
-		addr, err := conn.telcoInteractor.TelcoCaller.GetFromPhoneNumberToAddress(&bind.CallOpts{}, phoneNumber)
-		if err != nil {
-			msg = "error getting phone number to address"
-			break
-		}
-		msg = fmt.Sprintf("%s %s", "Your address is", addr.String())
+			// address
+			addr, err := conn.telcoInteractor.TelcoCaller.GetFromPhoneNumberToAddress(&bind.CallOpts{}, phoneNumber)
+			if err != nil {
+				msg = "error getting phone number to address"
+				break
+			}
+			msg = fmt.Sprintf("%s %s", "Your address is", addr.String())
 		case "3":
 			// Phone number
 			msg = fmt.Sprintf("%s %s", `ENV You phone number is`, phoneNumber)
