@@ -60,8 +60,8 @@ module.exports = {
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
     goerli: {
-      provider: () => new HDWalletProvider(mnemonic, `http://127.0.0.1:8545`),
-      // provider: () => new HDWalletProvider(mnemonic, `https://goerli.infura.io/v3/1eecb15771324b71961a05dc3398ebd4`),
+      // provider: () => new HDWalletProvider(mnemonic, `http://127.0.0.1:8545`),
+      provider: () => new HDWalletProvider(mnemonic, `https://goerli.infura.io/v3/1eecb15771324b71961a05dc3398ebd4`),
       network_id: 5,       // Ropsten's id
       gas: 5500000,        // Ropsten has a lower block limit than mainnet
       confirmations: 2,    // # of confs to wait between deployments. (default: 0)

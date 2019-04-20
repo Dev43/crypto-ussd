@@ -1,5 +1,7 @@
 package main
 
+import "math/big"
+
 type OpenChannelRequest struct {
 	PartnerAddress string `json:"partner_address"`
 	TokenAddress   string `json:"token_address"`
@@ -74,23 +76,24 @@ type ChannelInformation struct {
 	RevealTimeout          int    `json:"reveal_timeout"`
 }
 
-type Key struct {
-	Address string `json:"address"`
-	Crypto  struct {
-		Cipher       string `json:"cipher"`
-		Cipherparams struct {
-			Iv string `json:"iv"`
-		} `json:"cipherparams"`
-		Ciphertext string `json:"ciphertext"`
-		Kdf        string `json:"kdf"`
-		Kdfparams  struct {
-			C     int    `json:"c"`
-			Dklen int    `json:"dklen"`
-			Prf   string `json:"prf"`
-			Salt  string `json:"salt"`
-		} `json:"kdfparams"`
-		Mac string `json:"mac"`
-	} `json:"crypto"`
-	ID      string `json:"id"`
-	Version int    `json:"version"`
+type TransferInformation struct {
+	Amount        *big.Int
+	ToPhoneNumber string
+	Token         string
+	Password      string
+	TxHash        string
+	State         string
+}
+
+type TransactionHistory struct {
+	Transactions []TransferInformation
+}
+
+type WithdrawRequest struct {
+	Amount    *big.Int
+	Token     string
+	ToAddress string
+	Password  string
+	TxHash    string
+	State     string
 }

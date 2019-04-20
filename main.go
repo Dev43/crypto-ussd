@@ -40,12 +40,20 @@ func main() {
 		phoneNumber := r.FormValue("phoneNumber")
 		networkCode := r.FormValue("networkCode")
 		text := r.FormValue("text")
+
+		// check if the user has a history, if not create one
+		_, err := conn.memory.Get(phoneNumber)
+		if err != nil {
+			// if error, create a new one
+			txHistory := TransactionHistory{}
+			conn.memory.Write(phoneNumber, txHistory)
+		}
 		fmt.Println(sessionId, phoneNumber, networkCode, text)
 		if text == "" {
 			w.Write([]byte(`CON 
 			Welcome to crypto USSD Portal, what would you like to do?
 			1. Send Money
-			2. Withdraw Cash
+			2. Withdraw
 			3. Buy airtime
 			4. Pay goods
 			5. Pay bill
@@ -67,11 +75,13 @@ func main() {
 			w.Write([]byte(resp))
 		case "2":
 			// Withdraw Cash
-			// resp, err := SendMoney(sessionId, phoneNumber, networkCode, text)
-			// if err != nil {
-			// 	// handle it
-			// }
-			// w.Write([]byte(resp))
+			resp, err := conn.Withdraw(textArray, sessionId, phoneNumber, networkCode, text)
+			if err != nil {
+				// handle it
+				w.Write([]byte(err.Error()))
+
+			}
+			w.Write([]byte(resp))
 		case "3":
 			// Buy airtime
 			// resp, err := SendMoney(sessionId, phoneNumber, networkCode, text)

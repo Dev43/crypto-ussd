@@ -61,6 +61,7 @@ contract Telco is Ownable {
     OurUser storage user = users[msg.sender];
     require(user.balances[_tokenAddress] >= _amount, "not enough funds to withdraw");
     IERC20 erc20 = IERC20(_tokenAddress);
+    user.balances[_tokenAddress] -= _amount;
     erc20.transfer(msg.sender, _amount);
   }
 
@@ -68,6 +69,7 @@ contract Telco is Ownable {
     require(checkPasswordValid(_phoneNumber, _password), "password not valid");
     address userAddress = fromPhoneNumberToAddress[_phoneNumber];
     IERC20 erc20 = IERC20(_tokenAddress);
+    users[userAddress].balances[_tokenAddress] -= _amount;
     erc20.transfer(userAddress, _amount);
     // TODO need to remove the password here!
   }
