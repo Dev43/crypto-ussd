@@ -5,7 +5,7 @@ const ERC20Contract = artifacts.require("./ERC20.sol")
 
 contract("User", function (accounts) {
     let alice = accounts[0];
-    let bob = accounts[1];
+    let bob = "0x40058579f9D68ebebBe6E6F45c1995D5143F26AC";
     let userContract
     let telcoContract
     let erc20Contract

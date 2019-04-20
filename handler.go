@@ -26,15 +26,14 @@ type connection struct {
 	userInteractor  *user.User
 }
 
-var telcoAddress = common.HexToAddress("0xf7116a103306f0CF026851e2f78Ef73C4C81b278")
-var userAddress = common.HexToAddress("0xf65DF84ee55FCb9e6c628ef4C7a96f7713933Ee0")
+var telcoAddress = common.HexToAddress(os.Getenv("TELCO_ADDRESS"))
+var userAddress = common.HexToAddress(os.Getenv("USER_ADDRESS"))
 
 var tokenMap = map[string]common.Address{
-	"DAI": common.HexToAddress("0x40f54c622ea1c3B91Eb1eEEE89bDb0A96AD336B5"),
-	"ETH": common.HexToAddress("0x40f54c622ea1c3B91Eb1eEEE89bDb0A96AD336B5"),
-	"ECT": common.HexToAddress("0x40f54c622ea1c3B91Eb1eEEE89bDb0A96AD336B5"),
+	"DAI": common.HexToAddress(os.Getenv("DAI_ADDRESS")),
+	"ETH": common.HexToAddress(os.Getenv("ETH_ADDRESS")),
+	"ECT": common.HexToAddress(os.Getenv("ECT_ADDRESS")),
 }
-
 var tokenArray = []string{"DAI", "ETH", "ECT"}
 
 func NewConnection() (*connection, error) {
