@@ -6,7 +6,7 @@ module.exports = function(deployer) {
   // Use deployer to state migration tasks.
   console.log("Deploying...")
 
-  let passwords = ["hi", "hello", "test", "what", "where", "when", "this", "awesome"]
+  let passwords = ["hi", "hello", "test", "what", "where", "when", "this", "awesome", "pwd", "notgoodpassword", "123456"]
   let hashed = []
   for(password of passwords) {
       hashed.push(web3.utils.sha3(web3.utils.asciiToHex(password)))

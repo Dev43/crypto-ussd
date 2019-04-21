@@ -107,6 +107,10 @@ contract Telco is Ownable {
 
   }
 
+  function() payable external {
+
+  }
+
 }
 
 // Phase 1
