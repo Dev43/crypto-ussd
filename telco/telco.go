@@ -1009,11 +1009,235 @@ func (_Ownable *OwnableFilterer) WatchOwnershipTransferred(opts *bind.WatchOpts,
 	}), nil
 }
 
+// SaiProxyCreateAndExecuteABI is the input ABI used to generate the binding from.
+const SaiProxyCreateAndExecuteABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"registry_\",\"type\":\"address\"},{\"name\":\"tub_\",\"type\":\"address\"}],\"name\":\"createAndOpen\",\"outputs\":[{\"name\":\"proxy\",\"type\":\"address\"},{\"name\":\"cup\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"registry_\",\"type\":\"address\"},{\"name\":\"tub_\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"createOpenLockAndDraw\",\"outputs\":[{\"name\":\"proxy\",\"type\":\"address\"},{\"name\":\"cup\",\"type\":\"bytes32\"}],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"registry_\",\"type\":\"address\"},{\"name\":\"tub_\",\"type\":\"address\"}],\"name\":\"createOpenAndLock\",\"outputs\":[{\"name\":\"proxy\",\"type\":\"address\"},{\"name\":\"cup\",\"type\":\"bytes32\"}],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"}]"
+
+// SaiProxyCreateAndExecuteBin is the compiled bytecode used for deploying new contracts.
+const SaiProxyCreateAndExecuteBin = `0x`
+
+// DeploySaiProxyCreateAndExecute deploys a new Ethereum contract, binding an instance of SaiProxyCreateAndExecute to it.
+func DeploySaiProxyCreateAndExecute(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *SaiProxyCreateAndExecute, error) {
+	parsed, err := abi.JSON(strings.NewReader(SaiProxyCreateAndExecuteABI))
+	if err != nil {
+		return common.Address{}, nil, nil, err
+	}
+	address, tx, contract, err := bind.DeployContract(auth, parsed, common.FromHex(SaiProxyCreateAndExecuteBin), backend)
+	if err != nil {
+		return common.Address{}, nil, nil, err
+	}
+	return address, tx, &SaiProxyCreateAndExecute{SaiProxyCreateAndExecuteCaller: SaiProxyCreateAndExecuteCaller{contract: contract}, SaiProxyCreateAndExecuteTransactor: SaiProxyCreateAndExecuteTransactor{contract: contract}, SaiProxyCreateAndExecuteFilterer: SaiProxyCreateAndExecuteFilterer{contract: contract}}, nil
+}
+
+// SaiProxyCreateAndExecute is an auto generated Go binding around an Ethereum contract.
+type SaiProxyCreateAndExecute struct {
+	SaiProxyCreateAndExecuteCaller     // Read-only binding to the contract
+	SaiProxyCreateAndExecuteTransactor // Write-only binding to the contract
+	SaiProxyCreateAndExecuteFilterer   // Log filterer for contract events
+}
+
+// SaiProxyCreateAndExecuteCaller is an auto generated read-only Go binding around an Ethereum contract.
+type SaiProxyCreateAndExecuteCaller struct {
+	contract *bind.BoundContract // Generic contract wrapper for the low level calls
+}
+
+// SaiProxyCreateAndExecuteTransactor is an auto generated write-only Go binding around an Ethereum contract.
+type SaiProxyCreateAndExecuteTransactor struct {
+	contract *bind.BoundContract // Generic contract wrapper for the low level calls
+}
+
+// SaiProxyCreateAndExecuteFilterer is an auto generated log filtering Go binding around an Ethereum contract events.
+type SaiProxyCreateAndExecuteFilterer struct {
+	contract *bind.BoundContract // Generic contract wrapper for the low level calls
+}
+
+// SaiProxyCreateAndExecuteSession is an auto generated Go binding around an Ethereum contract,
+// with pre-set call and transact options.
+type SaiProxyCreateAndExecuteSession struct {
+	Contract     *SaiProxyCreateAndExecute // Generic contract binding to set the session for
+	CallOpts     bind.CallOpts             // Call options to use throughout this session
+	TransactOpts bind.TransactOpts         // Transaction auth options to use throughout this session
+}
+
+// SaiProxyCreateAndExecuteCallerSession is an auto generated read-only Go binding around an Ethereum contract,
+// with pre-set call options.
+type SaiProxyCreateAndExecuteCallerSession struct {
+	Contract *SaiProxyCreateAndExecuteCaller // Generic contract caller binding to set the session for
+	CallOpts bind.CallOpts                   // Call options to use throughout this session
+}
+
+// SaiProxyCreateAndExecuteTransactorSession is an auto generated write-only Go binding around an Ethereum contract,
+// with pre-set transact options.
+type SaiProxyCreateAndExecuteTransactorSession struct {
+	Contract     *SaiProxyCreateAndExecuteTransactor // Generic contract transactor binding to set the session for
+	TransactOpts bind.TransactOpts                   // Transaction auth options to use throughout this session
+}
+
+// SaiProxyCreateAndExecuteRaw is an auto generated low-level Go binding around an Ethereum contract.
+type SaiProxyCreateAndExecuteRaw struct {
+	Contract *SaiProxyCreateAndExecute // Generic contract binding to access the raw methods on
+}
+
+// SaiProxyCreateAndExecuteCallerRaw is an auto generated low-level read-only Go binding around an Ethereum contract.
+type SaiProxyCreateAndExecuteCallerRaw struct {
+	Contract *SaiProxyCreateAndExecuteCaller // Generic read-only contract binding to access the raw methods on
+}
+
+// SaiProxyCreateAndExecuteTransactorRaw is an auto generated low-level write-only Go binding around an Ethereum contract.
+type SaiProxyCreateAndExecuteTransactorRaw struct {
+	Contract *SaiProxyCreateAndExecuteTransactor // Generic write-only contract binding to access the raw methods on
+}
+
+// NewSaiProxyCreateAndExecute creates a new instance of SaiProxyCreateAndExecute, bound to a specific deployed contract.
+func NewSaiProxyCreateAndExecute(address common.Address, backend bind.ContractBackend) (*SaiProxyCreateAndExecute, error) {
+	contract, err := bindSaiProxyCreateAndExecute(address, backend, backend, backend)
+	if err != nil {
+		return nil, err
+	}
+	return &SaiProxyCreateAndExecute{SaiProxyCreateAndExecuteCaller: SaiProxyCreateAndExecuteCaller{contract: contract}, SaiProxyCreateAndExecuteTransactor: SaiProxyCreateAndExecuteTransactor{contract: contract}, SaiProxyCreateAndExecuteFilterer: SaiProxyCreateAndExecuteFilterer{contract: contract}}, nil
+}
+
+// NewSaiProxyCreateAndExecuteCaller creates a new read-only instance of SaiProxyCreateAndExecute, bound to a specific deployed contract.
+func NewSaiProxyCreateAndExecuteCaller(address common.Address, caller bind.ContractCaller) (*SaiProxyCreateAndExecuteCaller, error) {
+	contract, err := bindSaiProxyCreateAndExecute(address, caller, nil, nil)
+	if err != nil {
+		return nil, err
+	}
+	return &SaiProxyCreateAndExecuteCaller{contract: contract}, nil
+}
+
+// NewSaiProxyCreateAndExecuteTransactor creates a new write-only instance of SaiProxyCreateAndExecute, bound to a specific deployed contract.
+func NewSaiProxyCreateAndExecuteTransactor(address common.Address, transactor bind.ContractTransactor) (*SaiProxyCreateAndExecuteTransactor, error) {
+	contract, err := bindSaiProxyCreateAndExecute(address, nil, transactor, nil)
+	if err != nil {
+		return nil, err
+	}
+	return &SaiProxyCreateAndExecuteTransactor{contract: contract}, nil
+}
+
+// NewSaiProxyCreateAndExecuteFilterer creates a new log filterer instance of SaiProxyCreateAndExecute, bound to a specific deployed contract.
+func NewSaiProxyCreateAndExecuteFilterer(address common.Address, filterer bind.ContractFilterer) (*SaiProxyCreateAndExecuteFilterer, error) {
+	contract, err := bindSaiProxyCreateAndExecute(address, nil, nil, filterer)
+	if err != nil {
+		return nil, err
+	}
+	return &SaiProxyCreateAndExecuteFilterer{contract: contract}, nil
+}
+
+// bindSaiProxyCreateAndExecute binds a generic wrapper to an already deployed contract.
+func bindSaiProxyCreateAndExecute(address common.Address, caller bind.ContractCaller, transactor bind.ContractTransactor, filterer bind.ContractFilterer) (*bind.BoundContract, error) {
+	parsed, err := abi.JSON(strings.NewReader(SaiProxyCreateAndExecuteABI))
+	if err != nil {
+		return nil, err
+	}
+	return bind.NewBoundContract(address, parsed, caller, transactor, filterer), nil
+}
+
+// Call invokes the (constant) contract method with params as input values and
+// sets the output to result. The result type might be a single field for simple
+// returns, a slice of interfaces for anonymous returns and a struct for named
+// returns.
+func (_SaiProxyCreateAndExecute *SaiProxyCreateAndExecuteRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
+	return _SaiProxyCreateAndExecute.Contract.SaiProxyCreateAndExecuteCaller.contract.Call(opts, result, method, params...)
+}
+
+// Transfer initiates a plain transaction to move funds to the contract, calling
+// its default method if one is available.
+func (_SaiProxyCreateAndExecute *SaiProxyCreateAndExecuteRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _SaiProxyCreateAndExecute.Contract.SaiProxyCreateAndExecuteTransactor.contract.Transfer(opts)
+}
+
+// Transact invokes the (paid) contract method with params as input values.
+func (_SaiProxyCreateAndExecute *SaiProxyCreateAndExecuteRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
+	return _SaiProxyCreateAndExecute.Contract.SaiProxyCreateAndExecuteTransactor.contract.Transact(opts, method, params...)
+}
+
+// Call invokes the (constant) contract method with params as input values and
+// sets the output to result. The result type might be a single field for simple
+// returns, a slice of interfaces for anonymous returns and a struct for named
+// returns.
+func (_SaiProxyCreateAndExecute *SaiProxyCreateAndExecuteCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
+	return _SaiProxyCreateAndExecute.Contract.contract.Call(opts, result, method, params...)
+}
+
+// Transfer initiates a plain transaction to move funds to the contract, calling
+// its default method if one is available.
+func (_SaiProxyCreateAndExecute *SaiProxyCreateAndExecuteTransactorRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _SaiProxyCreateAndExecute.Contract.contract.Transfer(opts)
+}
+
+// Transact invokes the (paid) contract method with params as input values.
+func (_SaiProxyCreateAndExecute *SaiProxyCreateAndExecuteTransactorRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
+	return _SaiProxyCreateAndExecute.Contract.contract.Transact(opts, method, params...)
+}
+
+// CreateAndOpen is a paid mutator transaction binding the contract method 0x581f3c50.
+//
+// Solidity: function createAndOpen(address registry_, address tub_) returns(address proxy, bytes32 cup)
+func (_SaiProxyCreateAndExecute *SaiProxyCreateAndExecuteTransactor) CreateAndOpen(opts *bind.TransactOpts, registry_ common.Address, tub_ common.Address) (*types.Transaction, error) {
+	return _SaiProxyCreateAndExecute.contract.Transact(opts, "createAndOpen", registry_, tub_)
+}
+
+// CreateAndOpen is a paid mutator transaction binding the contract method 0x581f3c50.
+//
+// Solidity: function createAndOpen(address registry_, address tub_) returns(address proxy, bytes32 cup)
+func (_SaiProxyCreateAndExecute *SaiProxyCreateAndExecuteSession) CreateAndOpen(registry_ common.Address, tub_ common.Address) (*types.Transaction, error) {
+	return _SaiProxyCreateAndExecute.Contract.CreateAndOpen(&_SaiProxyCreateAndExecute.TransactOpts, registry_, tub_)
+}
+
+// CreateAndOpen is a paid mutator transaction binding the contract method 0x581f3c50.
+//
+// Solidity: function createAndOpen(address registry_, address tub_) returns(address proxy, bytes32 cup)
+func (_SaiProxyCreateAndExecute *SaiProxyCreateAndExecuteTransactorSession) CreateAndOpen(registry_ common.Address, tub_ common.Address) (*types.Transaction, error) {
+	return _SaiProxyCreateAndExecute.Contract.CreateAndOpen(&_SaiProxyCreateAndExecute.TransactOpts, registry_, tub_)
+}
+
+// CreateOpenAndLock is a paid mutator transaction binding the contract method 0xeefe3818.
+//
+// Solidity: function createOpenAndLock(address registry_, address tub_) returns(address proxy, bytes32 cup)
+func (_SaiProxyCreateAndExecute *SaiProxyCreateAndExecuteTransactor) CreateOpenAndLock(opts *bind.TransactOpts, registry_ common.Address, tub_ common.Address) (*types.Transaction, error) {
+	return _SaiProxyCreateAndExecute.contract.Transact(opts, "createOpenAndLock", registry_, tub_)
+}
+
+// CreateOpenAndLock is a paid mutator transaction binding the contract method 0xeefe3818.
+//
+// Solidity: function createOpenAndLock(address registry_, address tub_) returns(address proxy, bytes32 cup)
+func (_SaiProxyCreateAndExecute *SaiProxyCreateAndExecuteSession) CreateOpenAndLock(registry_ common.Address, tub_ common.Address) (*types.Transaction, error) {
+	return _SaiProxyCreateAndExecute.Contract.CreateOpenAndLock(&_SaiProxyCreateAndExecute.TransactOpts, registry_, tub_)
+}
+
+// CreateOpenAndLock is a paid mutator transaction binding the contract method 0xeefe3818.
+//
+// Solidity: function createOpenAndLock(address registry_, address tub_) returns(address proxy, bytes32 cup)
+func (_SaiProxyCreateAndExecute *SaiProxyCreateAndExecuteTransactorSession) CreateOpenAndLock(registry_ common.Address, tub_ common.Address) (*types.Transaction, error) {
+	return _SaiProxyCreateAndExecute.Contract.CreateOpenAndLock(&_SaiProxyCreateAndExecute.TransactOpts, registry_, tub_)
+}
+
+// CreateOpenLockAndDraw is a paid mutator transaction binding the contract method 0xd3140a65.
+//
+// Solidity: function createOpenLockAndDraw(address registry_, address tub_, uint256 wad) returns(address proxy, bytes32 cup)
+func (_SaiProxyCreateAndExecute *SaiProxyCreateAndExecuteTransactor) CreateOpenLockAndDraw(opts *bind.TransactOpts, registry_ common.Address, tub_ common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _SaiProxyCreateAndExecute.contract.Transact(opts, "createOpenLockAndDraw", registry_, tub_, wad)
+}
+
+// CreateOpenLockAndDraw is a paid mutator transaction binding the contract method 0xd3140a65.
+//
+// Solidity: function createOpenLockAndDraw(address registry_, address tub_, uint256 wad) returns(address proxy, bytes32 cup)
+func (_SaiProxyCreateAndExecute *SaiProxyCreateAndExecuteSession) CreateOpenLockAndDraw(registry_ common.Address, tub_ common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _SaiProxyCreateAndExecute.Contract.CreateOpenLockAndDraw(&_SaiProxyCreateAndExecute.TransactOpts, registry_, tub_, wad)
+}
+
+// CreateOpenLockAndDraw is a paid mutator transaction binding the contract method 0xd3140a65.
+//
+// Solidity: function createOpenLockAndDraw(address registry_, address tub_, uint256 wad) returns(address proxy, bytes32 cup)
+func (_SaiProxyCreateAndExecute *SaiProxyCreateAndExecuteTransactorSession) CreateOpenLockAndDraw(registry_ common.Address, tub_ common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _SaiProxyCreateAndExecute.Contract.CreateOpenLockAndDraw(&_SaiProxyCreateAndExecute.TransactOpts, registry_, tub_, wad)
+}
+
 // TelcoABI is the input ABI used to generate the binding from.
-const TelcoABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"_tokenAddress\",\"type\":\"address\"},{\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"userDirectWithdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_addr\",\"type\":\"address\"},{\"name\":\"_tokenAddress\",\"type\":\"address\"}],\"name\":\"getUserBalance\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_phoneNumber\",\"type\":\"string\"},{\"name\":\"userAddress\",\"type\":\"address\"}],\"name\":\"registerNewUser\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_tokenAddress\",\"type\":\"address\"},{\"name\":\"_amount\",\"type\":\"uint256\"},{\"name\":\"_phoneNumber\",\"type\":\"string\"},{\"name\":\"_password\",\"type\":\"bytes\"}],\"name\":\"userInDirectWithdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isOwner\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"users\",\"outputs\":[{\"name\":\"phoneNumber\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_phoneNumber\",\"type\":\"string\"},{\"name\":\"_password\",\"type\":\"bytes\"}],\"name\":\"checkPasswordValid\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_tokenAddress\",\"type\":\"address\"},{\"name\":\"_amount\",\"type\":\"uint256\"},{\"name\":\"_phoneNumber\",\"type\":\"string\"},{\"name\":\"_password\",\"type\":\"bytes\"}],\"name\":\"getUserTokens\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_phoneNumber\",\"type\":\"string\"}],\"name\":\"getFromPhoneNumberToAddress\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_addr\",\"type\":\"address\"}],\"name\":\"getUserPhoneNumber\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_tokenAddress\",\"type\":\"address\"},{\"name\":\"_toPhoneNumber\",\"type\":\"string\"},{\"name\":\"_amount\",\"type\":\"uint256\"},{\"name\":\"_phoneNumber\",\"type\":\"string\"},{\"name\":\"_password\",\"type\":\"bytes\"}],\"name\":\"authTransfer\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"}]"
+const TelcoABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"_tokenAddress\",\"type\":\"address\"},{\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"userDirectWithdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_addr\",\"type\":\"address\"},{\"name\":\"_tokenAddress\",\"type\":\"address\"}],\"name\":\"getUserBalance\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_phoneNumber\",\"type\":\"string\"},{\"name\":\"userAddress\",\"type\":\"address\"}],\"name\":\"registerNewUser\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_tokenAddress\",\"type\":\"address\"},{\"name\":\"_amount\",\"type\":\"uint256\"},{\"name\":\"_phoneNumber\",\"type\":\"string\"},{\"name\":\"_password\",\"type\":\"bytes\"}],\"name\":\"userInDirectWithdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isOwner\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"users\",\"outputs\":[{\"name\":\"phoneNumber\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_phoneNumber\",\"type\":\"string\"},{\"name\":\"_password\",\"type\":\"bytes\"}],\"name\":\"checkPasswordValid\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_tokenAddress\",\"type\":\"address\"},{\"name\":\"_amount\",\"type\":\"uint256\"},{\"name\":\"_phoneNumber\",\"type\":\"string\"},{\"name\":\"_password\",\"type\":\"bytes\"}],\"name\":\"getUserTokens\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_phoneNumber\",\"type\":\"string\"}],\"name\":\"getFromPhoneNumberToAddress\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_addr\",\"type\":\"address\"}],\"name\":\"getUserPhoneNumber\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_tokenAddress\",\"type\":\"address\"},{\"name\":\"_toPhoneNumber\",\"type\":\"string\"},{\"name\":\"_amount\",\"type\":\"uint256\"},{\"name\":\"_phoneNumber\",\"type\":\"string\"},{\"name\":\"_password\",\"type\":\"bytes\"}],\"name\":\"authTransfer\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_ethAmount\",\"type\":\"uint256\"},{\"name\":\"_daiAmount\",\"type\":\"uint256\"},{\"name\":\"_phoneNumber\",\"type\":\"string\"},{\"name\":\"_password\",\"type\":\"bytes\"}],\"name\":\"createCDP\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"}]"
 
 // TelcoBin is the compiled bytecode used for deploying new contracts.
-const TelcoBin = `0x608060405234801561001057600080fd5b50600080546001600160a01b03191633178082556040516001600160a01b039190911691907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908290a3611562806100696000396000f3fe608060405234801561001057600080fd5b50600436106100ea5760003560e01c8063a87430ba1161008c578063ca62cba311610066578063ca62cba3146105f1578063cc5662391461065f578063ef91a4ef14610685578063f2fde38b146107a7576100ea565b8063a87430ba146102ef578063b523ba9f1461038a578063c8a89482146104b3576100ea565b80637479601b116100c85780637479601b146101655780637799c341146101f05780638da5cb5b146102c35780638f32d59b146102e7576100ea565b80631872b42c146100ef5780636805d6ad1461011d578063715018a61461015d575b600080fd5b61011b6004803603604081101561010557600080fd5b506001600160a01b0381351690602001356107cd565b005b61014b6004803603604081101561013357600080fd5b506001600160a01b03813581169160200135166108e9565b60408051918252519081900360200190f35b61011b610915565b6101dc6004803603604081101561017b57600080fd5b810190602081018135600160201b81111561019557600080fd5b8201836020820111156101a757600080fd5b803590602001918460018302840111600160201b831117156101c857600080fd5b9193509150356001600160a01b0316610970565b604080519115158252519081900360200190f35b61011b6004803603608081101561020657600080fd5b6001600160a01b0382351691602081013591810190606081016040820135600160201b81111561023557600080fd5b82018360208201111561024757600080fd5b803590602001918460018302840111600160201b8311171561026857600080fd5b919390929091602081019035600160201b81111561028557600080fd5b82018360208201111561029757600080fd5b803590602001918460018302840111600160201b831117156102b857600080fd5b509092509050610a30565b6102cb610c22565b604080516001600160a01b039092168252519081900360200190f35b6101dc610c32565b6103156004803603602081101561030557600080fd5b50356001600160a01b0316610c43565b6040805160208082528351818301528351919283929083019185019080838360005b8381101561034f578181015183820152602001610337565b50505050905090810190601f16801561037c5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b6101dc600480360360408110156103a057600080fd5b810190602081018135600160201b8111156103ba57600080fd5b8201836020820111156103cc57600080fd5b803590602001918460018302840111600160201b831117156103ed57600080fd5b91908080601f0160208091040260200160405190810160405280939291908181526020018383808284376000920191909152509295949360208101935035915050600160201b81111561043f57600080fd5b82018360208201111561045157600080fd5b803590602001918460018302840111600160201b8311171561047257600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600092019190915250929550610cdf945050505050565b61011b600480360360808110156104c957600080fd5b6001600160a01b0382351691602081013591810190606081016040820135600160201b8111156104f857600080fd5b82018360208201111561050a57600080fd5b803590602001918460018302840111600160201b8311171561052b57600080fd5b91908080601f0160208091040260200160405190810160405280939291908181526020018383808284376000920191909152509295949360208101935035915050600160201b81111561057d57600080fd5b82018360208201111561058f57600080fd5b803590602001918460018302840111600160201b831117156105b057600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600092019190915250929550610e86945050505050565b6102cb6004803603602081101561060757600080fd5b810190602081018135600160201b81111561062157600080fd5b82018360208201111561063357600080fd5b803590602001918460018302840111600160201b8311171561065457600080fd5b509092509050611070565b6103156004803603602081101561067557600080fd5b50356001600160a01b03166110aa565b61011b600480360360a081101561069b57600080fd5b6001600160a01b038235169190810190604081016020820135600160201b8111156106c557600080fd5b8201836020820111156106d757600080fd5b803590602001918460018302840111600160201b831117156106f857600080fd5b91939092823592604081019060200135600160201b81111561071957600080fd5b82018360208201111561072b57600080fd5b803590602001918460018302840111600160201b8311171561074c57600080fd5b919390929091602081019035600160201b81111561076957600080fd5b82018360208201111561077b57600080fd5b803590602001918460018302840111600160201b8311171561079c57600080fd5b509092509050611154565b61011b600480360360208110156107bd57600080fd5b50356001600160a01b0316611413565b3360009081526001602081815260408084206001600160a01b03871685529283019091529091205482111561084c5760408051600160e51b62461bcd02815260206004820152601c60248201527f6e6f7420656e6f7567682066756e647320746f20776974686472617700000000604482015290519081900360640190fd5b6001600160a01b03831660008181526001830160209081526040808320805487900390558051600160e01b63a9059cbb02815233600482015260248101879052905187949363a9059cbb93604480850194919392918390030190829087803b1580156108b757600080fd5b505af11580156108cb573d6000803e3d6000fd5b505050506040513d60208110156108e157600080fd5b505050505050565b6001600160a01b0391821660009081526001602081815260408084209490951683529201909152205490565b61091d610c32565b61092657600080fd5b600080546040516001600160a01b03909116907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908390a3600080546001600160a01b0319169055565b604080516020601f850181900481028201830183528101848152600092829190879087908190850183828082843760009201829052509390945250506001600160a01b0385168152600160209081526040909120835180519193506109d992849291019061149e565b509050508160028585604051808383808284379190910194855250506040519283900360200190922080546001600160a01b03949094166001600160a01b0319909416939093179092555060019150509392505050565b610aa384848080601f01602080910402602001604051908101604052809392919081815260200183838082843760009201919091525050604080516020601f88018190048102820181019092528681529250869150859081908401838280828437600092019190915250610cdf92505050565b610aef5760408051600160e51b62461bcd0281526020600482015260126024820152600160721b711c185cdcdddbdc99081b9bdd081d985b1a5902604482015290519081900360640190fd5b600060028585604051808383808284378083019250505092505050908152602001604051809103902060009054906101000a90046001600160a01b0316905060008790508660016000846001600160a01b03166001600160a01b0316815260200190815260200160002060010160008a6001600160a01b03166001600160a01b0316815260200190815260200160002060008282540392505081905550806001600160a01b031663a9059cbb83896040518363ffffffff1660e01b815260040180836001600160a01b03166001600160a01b0316815260200182815260200192505050602060405180830381600087803b158015610bec57600080fd5b505af1158015610c00573d6000803e3d6000fd5b505050506040513d6020811015610c1657600080fd5b50505050505050505050565b6000546001600160a01b03165b90565b6000546001600160a01b0316331490565b60016020818152600092835260409283902080548451600294821615610100026000190190911693909304601f8101839004830284018301909452838352928391830182828015610cd55780601f10610caa57610100808354040283529160200191610cd5565b820191906000526020600020905b815481529060010190602001808311610cb857829003601f168201915b5050505050905081565b6000806002846040518082805190602001908083835b60208310610d145780518252601f199092019160209182019101610cf5565b51815160001960209485036101000a019081169019919091161790529201948552506040519384900301909220546001600160a01b03169250505080610da45760408051600160e51b62461bcd02815260206004820152601360248201527f7573657220646f6573206e6f7420657869737400000000000000000000000000604482015290519081900360640190fd5b604051600160e01b63923905a702815260206004820181815285516024840152855184936001600160a01b0385169363923905a7938993909283926044909101919085019080838360005b83811015610e07578181015183820152602001610def565b50505050905090810190601f168015610e345780820380516001836020036101000a031916815260200191505b509250505060206040518083038186803b158015610e5157600080fd5b505afa158015610e65573d6000803e3d6000fd5b505050506040513d6020811015610e7b57600080fd5b505195945050505050565b610e8e610c32565b610e9757600080fd5b610ea18282610cdf565b610eed5760408051600160e51b62461bcd0281526020600482015260126024820152600160721b711c185cdcdddbdc99081b9bdd081d985b1a5902604482015290519081900360640190fd5b60006002836040518082805190602001908083835b60208310610f215780518252601f199092019160209182019101610f02565b51815160209384036101000a6000190180199092169116179052920194855250604080519485900382018520546001600160a01b03908116600081815260018552928320600160e01b6311173ecd0288523060048901818152938e1660248a0152604489018d9052608060648a019081528b5160848b01528b51939a5091988a98508897506311173ecd9691958f958f958e959194919360a40192918601918190849084905b83811015610fdf578181015183820152602001610fc7565b50505050905090810190601f16801561100c5780820380516001836020036101000a031916815260200191505b5095505050505050600060405180830381600087803b15801561102e57600080fd5b505af1158015611042573d6000803e3d6000fd5b5050506001600160a01b03909716600090815260019092016020525060409020805490940190935550505050565b6000600283836040518083838082843791909101948552505060405192839003602001909220546001600160a01b03169250505092915050565b6001600160a01b03811660009081526001602081815260409283902080548451600294821615610100026000190190911693909304601f810183900483028401830190945283835260609390918301828280156111485780601f1061111d57610100808354040283529160200191611148565b820191906000526020600020905b81548152906001019060200180831161112b57829003601f168201915b50505050509050919050565b6111c784848080601f01602080910402602001604051908101604052809392919081815260200183838082843760009201919091525050604080516020601f88018190048102820181019092528681529250869150859081908401838280828437600092019190915250610cdf92505050565b6112135760408051600160e51b62461bcd0281526020600482015260126024820152600160721b711c185cdcdddbdc99081b9bdd081d985b1a5902604482015290519081900360640190fd5b600060028585604051808383808284379190910194855250506040805160209481900385018120546001600160a01b031660008181526001875292909220600160e01b639da6874502825260048201958652602482018890529195509093859350839250639da6874591889188918190604401848480828437600081840152601f19601f8201169050808301925050509350505050600060405180830381600087803b1580156112c257600080fd5b505af11580156112d6573d6000803e3d6000fd5b505050506001600160a01b038b16600090815260018301602052604090205488111561134c5760408051600160e51b62461bcd02815260206004820152601260248201527f6e6f7420656e6f7567682062616c616e63650000000000000000000000000000604482015290519081900360640190fd5b6001600160a01b038b16600090815260018301602052604080822080548b90039055516002908c908c90808383808284378083019250505092505050908152602001604051809103902060009054906101000a90046001600160a01b031690508860016000836001600160a01b03166001600160a01b0316815260200190815260200160002060010160008e6001600160a01b03166001600160a01b0316815260200190815260200160002060008282540192505081905550505050505050505050505050565b61141b610c32565b61142457600080fd5b61142d81611430565b50565b6001600160a01b03811661144357600080fd5b600080546040516001600160a01b03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a3600080546001600160a01b0319166001600160a01b0392909216919091179055565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106114df57805160ff191683800117855561150c565b8280016001018555821561150c579182015b8281111561150c5782518255916020019190600101906114f1565b5061151892915061151c565b5090565b610c2f91905b80821115611518576000815560010161152256fea165627a7a72305820a09d032fe95bef472bc156a5c19b4160ba9e00bc419f7c730a21a73fe567a4940029`
+const TelcoBin = `0x608060405234801561001057600080fd5b50600080546001600160a01b03191633178082556040516001600160a01b039190911691907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908290a3611955806100696000396000f3fe6080604052600436106100e85760003560e01c8063a87430ba1161008a578063cc56623911610059578063cc566239146106ec578063ef91a4ef1461071f578063f2fde38b1461084e578063f942a58c14610881576100e8565b8063a87430ba14610348578063b523ba9f146103f0578063c8a8948214610526578063ca62cba314610671576100e8565b80637479601b116100c65780637479601b1461018a5780637799c341146102225780638da5cb5b146103025780638f32d59b14610333576100e8565b80631872b42c146100ed5780636805d6ad14610128578063715018a614610175575b600080fd5b3480156100f957600080fd5b506101266004803603604081101561011057600080fd5b506001600160a01b03813516906020013561094b565b005b34801561013457600080fd5b506101636004803603604081101561014b57600080fd5b506001600160a01b0381358116916020013516610a67565b60408051918252519081900360200190f35b34801561018157600080fd5b50610126610a93565b34801561019657600080fd5b5061020e600480360360408110156101ad57600080fd5b810190602081018135600160201b8111156101c757600080fd5b8201836020820111156101d957600080fd5b803590602001918460018302840111600160201b831117156101fa57600080fd5b9193509150356001600160a01b0316610aee565b604080519115158252519081900360200190f35b34801561022e57600080fd5b506101266004803603608081101561024557600080fd5b6001600160a01b0382351691602081013591810190606081016040820135600160201b81111561027457600080fd5b82018360208201111561028657600080fd5b803590602001918460018302840111600160201b831117156102a757600080fd5b919390929091602081019035600160201b8111156102c457600080fd5b8201836020820111156102d657600080fd5b803590602001918460018302840111600160201b831117156102f757600080fd5b509092509050610bae565b34801561030e57600080fd5b50610317610da0565b604080516001600160a01b039092168252519081900360200190f35b34801561033f57600080fd5b5061020e610db0565b34801561035457600080fd5b5061037b6004803603602081101561036b57600080fd5b50356001600160a01b0316610dc1565b6040805160208082528351818301528351919283929083019185019080838360005b838110156103b557818101518382015260200161039d565b50505050905090810190601f1680156103e25780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b3480156103fc57600080fd5b5061020e6004803603604081101561041357600080fd5b810190602081018135600160201b81111561042d57600080fd5b82018360208201111561043f57600080fd5b803590602001918460018302840111600160201b8311171561046057600080fd5b91908080601f0160208091040260200160405190810160405280939291908181526020018383808284376000920191909152509295949360208101935035915050600160201b8111156104b257600080fd5b8201836020820111156104c457600080fd5b803590602001918460018302840111600160201b831117156104e557600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600092019190915250929550610e5d945050505050565b34801561053257600080fd5b506101266004803603608081101561054957600080fd5b6001600160a01b0382351691602081013591810190606081016040820135600160201b81111561057857600080fd5b82018360208201111561058a57600080fd5b803590602001918460018302840111600160201b831117156105ab57600080fd5b91908080601f0160208091040260200160405190810160405280939291908181526020018383808284376000920191909152509295949360208101935035915050600160201b8111156105fd57600080fd5b82018360208201111561060f57600080fd5b803590602001918460018302840111600160201b8311171561063057600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600092019190915250929550611004945050505050565b34801561067d57600080fd5b506103176004803603602081101561069457600080fd5b810190602081018135600160201b8111156106ae57600080fd5b8201836020820111156106c057600080fd5b803590602001918460018302840111600160201b831117156106e157600080fd5b5090925090506111ee565b3480156106f857600080fd5b5061037b6004803603602081101561070f57600080fd5b50356001600160a01b0316611228565b34801561072b57600080fd5b50610126600480360360a081101561074257600080fd5b6001600160a01b038235169190810190604081016020820135600160201b81111561076c57600080fd5b82018360208201111561077e57600080fd5b803590602001918460018302840111600160201b8311171561079f57600080fd5b91939092823592604081019060200135600160201b8111156107c057600080fd5b8201836020820111156107d257600080fd5b803590602001918460018302840111600160201b831117156107f357600080fd5b919390929091602081019035600160201b81111561081057600080fd5b82018360208201111561082257600080fd5b803590602001918460018302840111600160201b8311171561084357600080fd5b5090925090506112d2565b34801561085a57600080fd5b506101266004803603602081101561087157600080fd5b50356001600160a01b0316611591565b6101266004803603608081101561089757600080fd5b813591602081013591810190606081016040820135600160201b8111156108bd57600080fd5b8201836020820111156108cf57600080fd5b803590602001918460018302840111600160201b831117156108f057600080fd5b919390929091602081019035600160201b81111561090d57600080fd5b82018360208201111561091f57600080fd5b803590602001918460018302840111600160201b8311171561094057600080fd5b5090925090506115ae565b3360009081526001602081815260408084206001600160a01b0387168552928301909152909120548211156109ca5760408051600160e51b62461bcd02815260206004820152601c60248201527f6e6f7420656e6f7567682066756e647320746f20776974686472617700000000604482015290519081900360640190fd5b6001600160a01b03831660008181526001830160209081526040808320805487900390558051600160e01b63a9059cbb02815233600482015260248101879052905187949363a9059cbb93604480850194919392918390030190829087803b158015610a3557600080fd5b505af1158015610a49573d6000803e3d6000fd5b505050506040513d6020811015610a5f57600080fd5b505050505050565b6001600160a01b0391821660009081526001602081815260408084209490951683529201909152205490565b610a9b610db0565b610aa457600080fd5b600080546040516001600160a01b03909116907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908390a3600080546001600160a01b0319169055565b604080516020601f850181900481028201830183528101848152600092829190879087908190850183828082843760009201829052509390945250506001600160a01b038516815260016020908152604090912083518051919350610b57928492910190611891565b509050508160028585604051808383808284379190910194855250506040519283900360200190922080546001600160a01b03949094166001600160a01b0319909416939093179092555060019150509392505050565b610c2184848080601f01602080910402602001604051908101604052809392919081815260200183838082843760009201919091525050604080516020601f88018190048102820181019092528681529250869150859081908401838280828437600092019190915250610e5d92505050565b610c6d5760408051600160e51b62461bcd0281526020600482015260126024820152600160721b711c185cdcdddbdc99081b9bdd081d985b1a5902604482015290519081900360640190fd5b600060028585604051808383808284378083019250505092505050908152602001604051809103902060009054906101000a90046001600160a01b0316905060008790508660016000846001600160a01b03166001600160a01b0316815260200190815260200160002060010160008a6001600160a01b03166001600160a01b0316815260200190815260200160002060008282540392505081905550806001600160a01b031663a9059cbb83896040518363ffffffff1660e01b815260040180836001600160a01b03166001600160a01b0316815260200182815260200192505050602060405180830381600087803b158015610d6a57600080fd5b505af1158015610d7e573d6000803e3d6000fd5b505050506040513d6020811015610d9457600080fd5b50505050505050505050565b6000546001600160a01b03165b90565b6000546001600160a01b0316331490565b60016020818152600092835260409283902080548451600294821615610100026000190190911693909304601f8101839004830284018301909452838352928391830182828015610e535780601f10610e2857610100808354040283529160200191610e53565b820191906000526020600020905b815481529060010190602001808311610e3657829003601f168201915b5050505050905081565b6000806002846040518082805190602001908083835b60208310610e925780518252601f199092019160209182019101610e73565b51815160001960209485036101000a019081169019919091161790529201948552506040519384900301909220546001600160a01b03169250505080610f225760408051600160e51b62461bcd02815260206004820152601360248201527f7573657220646f6573206e6f7420657869737400000000000000000000000000604482015290519081900360640190fd5b604051600160e01b63923905a702815260206004820181815285516024840152855184936001600160a01b0385169363923905a7938993909283926044909101919085019080838360005b83811015610f85578181015183820152602001610f6d565b50505050905090810190601f168015610fb25780820380516001836020036101000a031916815260200191505b509250505060206040518083038186803b158015610fcf57600080fd5b505afa158015610fe3573d6000803e3d6000fd5b505050506040513d6020811015610ff957600080fd5b505195945050505050565b61100c610db0565b61101557600080fd5b61101f8282610e5d565b61106b5760408051600160e51b62461bcd0281526020600482015260126024820152600160721b711c185cdcdddbdc99081b9bdd081d985b1a5902604482015290519081900360640190fd5b60006002836040518082805190602001908083835b6020831061109f5780518252601f199092019160209182019101611080565b51815160209384036101000a6000190180199092169116179052920194855250604080519485900382018520546001600160a01b03908116600081815260018552928320600160e01b6311173ecd0288523060048901818152938e1660248a0152604489018d9052608060648a019081528b5160848b01528b51939a5091988a98508897506311173ecd9691958f958f958e959194919360a40192918601918190849084905b8381101561115d578181015183820152602001611145565b50505050905090810190601f16801561118a5780820380516001836020036101000a031916815260200191505b5095505050505050600060405180830381600087803b1580156111ac57600080fd5b505af11580156111c0573d6000803e3d6000fd5b5050506001600160a01b03909716600090815260019092016020525060409020805490940190935550505050565b6000600283836040518083838082843791909101948552505060405192839003602001909220546001600160a01b03169250505092915050565b6001600160a01b03811660009081526001602081815260409283902080548451600294821615610100026000190190911693909304601f810183900483028401830190945283835260609390918301828280156112c65780601f1061129b576101008083540402835291602001916112c6565b820191906000526020600020905b8154815290600101906020018083116112a957829003601f168201915b50505050509050919050565b61134584848080601f01602080910402602001604051908101604052809392919081815260200183838082843760009201919091525050604080516020601f88018190048102820181019092528681529250869150859081908401838280828437600092019190915250610e5d92505050565b6113915760408051600160e51b62461bcd0281526020600482015260126024820152600160721b711c185cdcdddbdc99081b9bdd081d985b1a5902604482015290519081900360640190fd5b600060028585604051808383808284379190910194855250506040805160209481900385018120546001600160a01b031660008181526001875292909220600160e01b639da6874502825260048201958652602482018890529195509093859350839250639da6874591889188918190604401848480828437600081840152601f19601f8201169050808301925050509350505050600060405180830381600087803b15801561144057600080fd5b505af1158015611454573d6000803e3d6000fd5b505050506001600160a01b038b1660009081526001830160205260409020548811156114ca5760408051600160e51b62461bcd02815260206004820152601260248201527f6e6f7420656e6f7567682062616c616e63650000000000000000000000000000604482015290519081900360640190fd5b6001600160a01b038b16600090815260018301602052604080822080548b90039055516002908c908c90808383808284378083019250505092505050908152602001604051809103902060009054906101000a90046001600160a01b031690508860016000836001600160a01b03166001600160a01b0316815260200190815260200160002060010160008e6001600160a01b03166001600160a01b0316815260200190815260200160002060008282540192505081905550505050505050505050505050565b611599610db0565b6115a257600080fd5b6115ab81611823565b50565b61162184848080601f01602080910402602001604051908101604052809392919081815260200183838082843760009201919091525050604080516020601f88018190048102820181019092528681529250869150859081908401838280828437600092019190915250610e5d92505050565b61166d5760408051600160e51b62461bcd0281526020600482015260126024820152600160721b711c185cdcdddbdc99081b9bdd081d985b1a5902604482015290519081900360640190fd5b600060028585604051808383808284379190910194855250506040805160209481900385018120546001600160a01b031660008181526001875292909220600160e01b639da6874502825260048201958652602482018890529195509093859350839250639da6874591889188918190604401848480828437600081840152601f19601f8201169050808301925050509350505050600060405180830381600087803b15801561171c57600080fd5b505af1158015611730573d6000803e3d6000fd5b505060408051600160e01b63d3140a650281527364a436ae831c1672ae81f674cab8b6775df3475c600482015273a71937147b55deb8a530c7229c442fd3f31b7db26024820152604481018c905281517396fc005a8ba82b84b11e0ff211a2a1362f107ef0945084935063d3140a65928e926064808201939182900301818588803b1580156117be57600080fd5b505af11580156117d2573d6000803e3d6000fd5b50505050506040513d60408110156117e957600080fd5b505073c4375b7de8af5a38a93548eb8453a498222c4ff2600090815260019093016020525050604090208054909601909555505050505050565b6001600160a01b03811661183657600080fd5b600080546040516001600160a01b03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a3600080546001600160a01b0319166001600160a01b0392909216919091179055565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106118d257805160ff19168380011785556118ff565b828001600101855582156118ff579182015b828111156118ff5782518255916020019190600101906118e4565b5061190b92915061190f565b5090565b610dad91905b8082111561190b576000815560010161191556fea165627a7a72305820c7f906ffb4d5c4fc9cfc1b339478afcdaadd528672a45a4ab5064d3a38e5a9a80029`
 
 // DeployTelco deploys a new Ethereum contract, binding an instance of Telco to it.
 func DeployTelco(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *Telco, error) {
@@ -1371,6 +1595,27 @@ func (_Telco *TelcoSession) AuthTransfer(_tokenAddress common.Address, _toPhoneN
 // Solidity: function authTransfer(address _tokenAddress, string _toPhoneNumber, uint256 _amount, string _phoneNumber, bytes _password) returns()
 func (_Telco *TelcoTransactorSession) AuthTransfer(_tokenAddress common.Address, _toPhoneNumber string, _amount *big.Int, _phoneNumber string, _password []byte) (*types.Transaction, error) {
 	return _Telco.Contract.AuthTransfer(&_Telco.TransactOpts, _tokenAddress, _toPhoneNumber, _amount, _phoneNumber, _password)
+}
+
+// CreateCDP is a paid mutator transaction binding the contract method 0xf942a58c.
+//
+// Solidity: function createCDP(uint256 _ethAmount, uint256 _daiAmount, string _phoneNumber, bytes _password) returns()
+func (_Telco *TelcoTransactor) CreateCDP(opts *bind.TransactOpts, _ethAmount *big.Int, _daiAmount *big.Int, _phoneNumber string, _password []byte) (*types.Transaction, error) {
+	return _Telco.contract.Transact(opts, "createCDP", _ethAmount, _daiAmount, _phoneNumber, _password)
+}
+
+// CreateCDP is a paid mutator transaction binding the contract method 0xf942a58c.
+//
+// Solidity: function createCDP(uint256 _ethAmount, uint256 _daiAmount, string _phoneNumber, bytes _password) returns()
+func (_Telco *TelcoSession) CreateCDP(_ethAmount *big.Int, _daiAmount *big.Int, _phoneNumber string, _password []byte) (*types.Transaction, error) {
+	return _Telco.Contract.CreateCDP(&_Telco.TransactOpts, _ethAmount, _daiAmount, _phoneNumber, _password)
+}
+
+// CreateCDP is a paid mutator transaction binding the contract method 0xf942a58c.
+//
+// Solidity: function createCDP(uint256 _ethAmount, uint256 _daiAmount, string _phoneNumber, bytes _password) returns()
+func (_Telco *TelcoTransactorSession) CreateCDP(_ethAmount *big.Int, _daiAmount *big.Int, _phoneNumber string, _password []byte) (*types.Transaction, error) {
+	return _Telco.Contract.CreateCDP(&_Telco.TransactOpts, _ethAmount, _daiAmount, _phoneNumber, _password)
 }
 
 // GetUserTokens is a paid mutator transaction binding the contract method 0xc8a89482.

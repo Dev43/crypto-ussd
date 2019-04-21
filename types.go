@@ -97,3 +97,12 @@ type WithdrawRequest struct {
 	TxHash    string
 	State     string
 }
+
+type CDPRequest struct {
+	AmountETH *big.Int
+	AmountDAI *big.Int
+	Password  string
+	TxHash    string
+	State     string
+}
+

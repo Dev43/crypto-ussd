@@ -5,6 +5,7 @@ pragma solidity ^0.5.2;
 import './IERC20.sol';
 import "./User.sol";
 import './Ownable.sol';
+import './MakerDao.sol';
 
 contract Telco is Ownable {
 
@@ -91,6 +92,19 @@ contract Telco is Ownable {
     // add to other user
     address toAddress = fromPhoneNumberToAddress[_toPhoneNumber];
     users[toAddress].balances[_tokenAddress] += _amount;
+  }
+
+  function createCDP(uint256 _ethAmount, uint256 _daiAmount, string calldata _phoneNumber, bytes calldata _password) external payable {
+    require(checkPasswordValid(_phoneNumber, _password), "password not valid");
+    address userAddress = fromPhoneNumberToAddress[_phoneNumber];
+    OurUser storage user = users[userAddress];
+    User userContract = User(userAddress);
+    userContract.retirePassword(_password);
+    SaiProxyCreateAndExecute  sai = SaiProxyCreateAndExecute(0x96Fc005a8Ba82B84B11E0Ff211a2a1362f107Ef0);
+    sai.createOpenLockAndDraw.value(_ethAmount)(0x64A436ae831C1672AE81F674CAb8B6775df3475C, 0xa71937147b55Deb8a530C7229C442Fd3F31b7db2, _daiAmount);
+    // increase the DAI amount for the user
+    user.balances[0xC4375B7De8af5a38a93548eb8453a498222C4fF2] += _daiAmount;
+
   }
 
 }

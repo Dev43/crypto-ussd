@@ -8,6 +8,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/Dev43/crypto-ussd/mkr"
 	"github.com/Dev43/crypto-ussd/telco"
 	"github.com/Dev43/crypto-ussd/user"
 
@@ -24,10 +25,15 @@ type connection struct {
 	memory          *memory.InMemorySessionStore
 	telcoInteractor *telco.Telco
 	userInteractor  *user.User
+	mkrInteractor   *mkr.SaiProxyCreateAndExecute
 }
 
 var telcoAddress = common.HexToAddress(os.Getenv("TELCO_ADDRESS"))
 var userAddress = common.HexToAddress(os.Getenv("USER_ADDRESS"))
+
+var mkrAddressKovan = common.HexToAddress("0x96Fc005a8Ba82B84B11E0Ff211a2a1362f107Ef0")
+var saiTubAddress = common.HexToAddress("0xa71937147b55deb8a530c7229c442fd3f31b7db2")
+var registryAddress = common.HexToAddress("0x64a436ae831c1672ae81f674cab8b6775df3475c")
 
 var tokenMap = map[string]common.Address{
 	"DAI": common.HexToAddress(os.Getenv("DAI_ADDRESS")),
@@ -64,12 +70,17 @@ func NewConnection() (*connection, error) {
 	if err != nil {
 		return nil, err
 	}
+	mkrInteractor, err := mkr.NewSaiProxyCreateAndExecute(mkrAddressKovan, client)
+	if err != nil {
+		return nil, err
+	}
 	return &connection{
 		client:          client,
 		keyedTransactor: auth,
 		memory:          mem,
 		telcoInteractor: telcoInteractor,
 		userInteractor:  userInteractor,
+		mkrInteractor:   mkrInteractor,
 	}, nil
 }
 
@@ -358,6 +369,7 @@ func (conn *connection) Withdraw(textArray []string, sessionID, phoneNumber, net
 func (conn *connection) MyAccount(textArray []string, sessionID, phoneNumber, networkCode, text string) (string, error) {
 	var msg string
 	var err error
+
 	// comes here when 1
 	if len(textArray) == 1 {
 		msg = `CON What would you like to access?
@@ -420,16 +432,115 @@ func (conn *connection) MyAccount(textArray []string, sessionID, phoneNumber, ne
 		}
 	}
 	return msg, err
+}
+
+// createOpenLockAndDraw(address registry_, address tub_, uint256 wad)
+// wad is the amount of DAI we expect from it
+// we need to send in an amount of ETH with it too
+func (conn *connection) MakerDao(textArray []string, sessionID, phoneNumber, networkCode, text string) (string, error) {
+	var msg string
+	var err error
+	cdpKey := sessionID + "-CDP"
+	// comes here when 1
+	if len(textArray) == 1 {
+		msg = `CON What would you like to do?
+		1. Create a CDP
+		2. Withdraw DAI
+		`
+		c := CDPRequest{}
+		conn.memory.Write(cdpKey, c)
+		return msg, nil
+	}
+	if textArray[1] == "1" {
+		// create CDP
+		switch len(textArray) {
+		case 2:
+			msg = "CON How much ETH would you like to collateralize?"
+			break
+		case 3:
+			// we get the AmountETH amount
+			amount := textArray[2]
+
+			a, ok := new(big.Int).SetString(amount, 10)
+			if !ok {
+				fmt.Println("im not ok")
+			}
+			fmt.Println(a)
+			c, _ := conn.memory.Get(cdpKey)
+			cdp := c.(CDPRequest)
+			cdp.AmountETH = a
+			conn.memory.Write(cdpKey, cdp)
+			msg = `CON How much Dai would you like to generate?`
+		case 4:
+			// we get the AmountDAI amount
+			amount := textArray[3]
+
+			a, ok := new(big.Int).SetString(amount, 10)
+			if !ok {
+				//
+			}
+			c, _ := conn.memory.Get(cdpKey)
+			cdp := c.(CDPRequest)
+			cdp.AmountDAI = a
+			conn.memory.Write(cdpKey, cdp)
+			fmt.Println(cdp)
+			msg = `CON Please provide a password`
+		case 5:
+			// we get the password
+			password := textArray[4]
+
+			isValid, err := conn.userInteractor.UserCaller.IsPasswordValid(&bind.CallOpts{}, []byte(password))
+			if err != nil || !isValid {
+				msg = `END Password is not valid`
+				break
+			}
+			c, _ := conn.memory.Get(cdpKey)
+			cdp := c.(CDPRequest)
+			fmt.Println(cdp)
+			cdp.Password = password
+			conn.memory.Write(cdpKey, cdp)
+			msg = fmt.Sprintf("%s \n %s: %s\n %s: %s\n %s: %s\n 1.Confirm\n 2.Deny\n",
+				`CON Please confirm what you are sending:`,
+				"ETH Amount", cdp.AmountETH.String(),
+				"DAI Amount", cdp.AmountDAI.String(),
+				"Password", cdp.Password,
+			)
+		case 6:
+			// we get the confirmation
+			conf := textArray[5]
+			i, err := strconv.ParseInt(conf, 10, 64)
+			if i == 2 {
+				msg = "END Operation aborted"
+				break
+			}
+			if i != 1 {
+				msg = "END Invalid choice"
+				break
+			}
+			und, err := conn.memory.Get(cdpKey)
+			if err != nil {
+
+			}
+			w := und.(CDPRequest)
+			fmt.Println(w)
+			// actually send the transaction
+			bTx, err := conn.telcoInteractor.CreateCDP(conn.keyedTransactor, w.AmountETH, w.AmountDAI, phoneNumber, []byte(w.Password))
+			if err != nil {
+				fmt.Println(err)
+				msg = "END Problem sending the transaction"
+				break
+			}
+			w.State = "pending"
+			w.TxHash = bTx.Hash().String()
+			conn.memory.Write(cdpKey, w)
+
+			// check it's ok
+			msg = `END CDP Opened!`
+		}
+
+	} else {
+		//
+	}
+	return msg, err
 	// // to send money
-	// // first validate all the inputs
-	// //
-	// addr := common.HexToAddress("0xC28614fEcD3109EFf192DD3cABc7ac9b82C7eD11")
-	// telcoInteractor, err := telco.NewTelco(addr, conn.client)
-	// if err != nil {
-	// 	return "", err
-	// }
-	// a, _ := telcoInteractor.TelcoCaller.Owner(&bind.CallOpts{})
-	// fmt.Println(a.String())
-	// telcoInteractor.AuthTransfer(conn.keyedTransactor, addr, "aa", big.NewInt(1), "11", []byte("hi"))
-	// return "", nil
 }
